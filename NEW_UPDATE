@@ -1,0 +1,56 @@
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+
+export default [
+  // Specify which files to ignore during linting
+  { ignores: ['dist'] },
+
+  {
+    // Target files for linting
+    files: ['**/*.{js,jsx}'],
+    
+    // Language options for ECMAScript and globals
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',  // Use the latest ECMAScript features
+        ecmaFeatures: { jsx: true },  // Enable JSX syntax
+        sourceType: 'module',  // Enable ECMAScript modules
+      },
+    },
+
+    // React settings
+    settings: {
+      react: {
+        version: '18.3',  // Specify React version
+      },
+    },
+
+    // Plugins for React and related hooks
+    plugins: {
+      react,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+
+    // Linting rules
+    rules: {
+      // Recommended rules from ESLint and plugins
+      ...js.configs.recommended.rules,
+      ...react.configs.recommended.rules,
+      ...react.configs['jsx-runtime'].rules,
+      ...reactHooks.configs.recommended.rules,
+      
+      // Custom rules
+      'react/jsx-no-target-blank': 'off',  // Allow target="_blank" in JSX
+      'react-refresh/only-export-components': [
+        'warn',  // Warn if components are not exported properly
+        { allowConstantExport: true },  // Allow constant exports without warning
+      ],
+    },
+  },
+];
